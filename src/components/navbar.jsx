@@ -1,31 +1,53 @@
-import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import React, { useState } from "react";
+import "../navbar.css";
 
-export default function Navbar() {
+function Navbar() {
+  const [active, setActive] = useState("nav__menu");
+  const [icon, setIcon] = useState("nav__toggler");
+  const navToggle = () => {
+    if (active === "nav__menu") {
+      setActive("nav__menu nav__active");
+    } else setActive("nav__menu");
+
+    // Icon Toggler
+    if (icon === "nav__toggler") {
+      setIcon("nav__toggler toggle");
+    } else setIcon("nav__toggler");
+  };
   return (
-    <div className="bg-red-400">
-      <nav className="nav">
-        <Link to="/" className="site-title">
-          Site Name
-        </Link>
-        <ul>
-          <CustomLink to="/provision">Provision</CustomLink>
-          <CustomLink to="/history">History</CustomLink>
-          <CustomLink to="/complaints">Complaints</CustomLink>
-        </ul>
-      </nav>
-    </div>
+    <nav className="nav">
+      <a href="#" className="nav__brand">
+        herdoy
+      </a>
+      <ul className={active}>
+        <li className="nav__item">
+          <a href="/" className="nav__link">
+            Check provision
+          </a>
+        </li>
+        <li className="nav__item">
+          <a href="#" className="nav__link">
+            Provision history
+          </a>
+        </li>
+        <li className="nav__item">
+          <a href="#" className="nav__link">
+            Track good
+          </a>
+        </li>
+        <li className="nav__item">
+          <a href="#" className="nav__link">
+            File complaint
+          </a>
+        </li>
+      </ul>
+      <div onClick={navToggle} className={icon}>
+        <div className="line1"></div>
+        <div className="line2"></div>
+        <div className="line3"></div>
+      </div>
+    </nav>
   );
 }
 
-function CustomLink({ to, children, ...props }) {
-  const resolvedPath = useResolvedPath(to);
-  const isActive = useMatch({ path: resolvedPath.pathname, end: true });
-
-  return (
-    <li className={isActive ? "active" : ""}>
-      <Link to={to} {...props}>
-        {children}
-      </Link>
-    </li>
-  );
-}
+export default Navbar;
